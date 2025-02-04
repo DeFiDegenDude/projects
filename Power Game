@@ -1,0 +1,139 @@
+import tkinter as tk
+import threading
+
+p = 0
+
+root = tk.Tk()
+root.title("Game Shop 4.5")
+root.geometry("500x400")
+
+exercising = False
+durabilities = False
+muscles = 0
+durability = 0
+strength = muscles * durability
+
+def exercise_muscles():
+    global exercising
+    exercising = True
+    update_stats()
+
+def exercise_durability():
+    global durabilities
+    durabilities = True
+    update_dr()
+def update_dr():
+    global strength, durability, exercising, muscles
+    if durabilities:
+        exercising = False
+        durability += pow(2, p)
+        if muscles > 0:
+            strength = muscles * durability
+        else:
+            strength = durability
+
+        print(f"\nOverall strength: {strength}\nMuscles: {muscles}\nDurability: {durability}")
+        root.after(1000, update_dr)
+
+def update_stats():
+    global strength, muscles, durabilities, durability
+    if exercising:
+        durabilities = False
+        muscles += pow(2, p)
+        if durability > 0:
+            strength = muscles * durability
+        else:
+            strength = muscles
+
+        print(f"\nOverall strength: {strength}\nMuscles: {muscles}\nDurability: {durability}")
+        root.after(1000, update_stats)  # Schedule next update
+
+def apply_cheat_code():
+    global muscles, durability, strength
+    code = input("Enter cheat code (0 if none): ")
+
+    if code == "0":
+        muscles = 0
+        durability = 0
+        strength = muscles * durability
+    if code == "higherhigher":
+        muscles = 100
+        durability = 500
+        strength = muscles * durability
+    print(f"Code applied! Strength: {strength}, Muscles: {muscles}, Durability: {durability}")
+    if code == "code 100":
+        muscles = 100
+        durability = 100
+        strength = muscles * durability
+        print(f"Code applied! Strength: {strength}, Muscles: {muscles}, Durability: {durability}")
+train_button = tk.Button(root, text="Train by lifting weights", command=exercise_muscles)
+train_button.pack(pady=10)
+
+train__button = tk.Button(root, text="Train durability", command = exercise_durability)
+train__button.pack(pady=10)
+
+inventory = []
+g = 0
+
+def buyeggone():
+    global strength
+    if strength >= 100:
+        global exercising, durabilities
+        exercising = False
+        durabilities = False
+        strength -= 100
+        global p
+        inventory.append("Egg 1")
+        p += 1
+        print(f"Energy is doubled")
+        print(f"Bought Egg 1")
+        print(f"Strength is {strength")
+    else:
+        print("Not enough funds to purchase egg")
+def show():
+    global exercising, durabilities
+    exercising = False
+    durabilities = False
+    print(inventory)
+_inf = 0
+enemy = 0
+win = True
+def fight():
+    global enemy, win, exercising, durabilities, _inf, strength
+    exercising = False
+    durabilities = False
+
+    try:
+        _inf += int(input("What level? Level 1: Strength 5000, Level 2: Strength 18000, Level 3: 500000"))
+    except ValueError:
+        fight()
+    finally:
+        if _inf == 1:
+            enemy = 5000
+            if strength > enemy:
+                win = True
+        if _inf == 2:
+            enemy = 18000
+            if strength > enemy:
+                win = True
+        if _inf == 3:
+            enemy = 500000
+            if strength > enemy:
+                win = True
+        if win == True:
+            print(f"you won level {_inf}!")
+            strength += enemy
+            
+
+buy__ = tk.Button(root, text="Buy egg b1 one $100 strength", command=buyeggone)
+buy__.pack(pady=10)
+
+show__ = tk.Button(root, text="Show inventory", command=show)
+show__.pack(pady=10)
+
+fight__ = tk.Button(root, text="Fight!", command=fight)
+fight__.pack(pady=10)
+# Run the cheat code input in a separate thread
+threading.Thread(target=apply_cheat_code, daemon=True).start()
+
+root.mainloop()
