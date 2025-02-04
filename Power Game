@@ -61,8 +61,8 @@ def apply_cheat_code():
     print(f"Code applied! Strength: {strength}, Muscles: {muscles}, Durability: {durability}")
 
 def buyeggone():
-    if strength >= 100:
-        global exercising, durabilities, strength, p, muscles, durability
+    global exercising, durabilities, strength, p, muscles, durability
+    if muscles >= 100 and durability >= 100:
         exercising = False
         durabilities = False
         muscles -= 100
@@ -72,8 +72,24 @@ def buyeggone():
         print("Energy is doubled")
         print("Bought Egg 1")
         print(f"Strength is {strength}")
+        strength = muscles * durability #change strength along with everything
     else:
         print("Insufficient funds. Requires 100 Muscles and 100 Durability")
+def buyeggtwo():
+    global exercising, durabilities, strength, p, muscles, durability
+    if muscles >= 500 and durability >= 375:
+        exercising = False
+        durabilities = False
+        muscles -= 500
+        durability -= 375
+        inventory.append("Egg 2")
+        p += 1
+        print("Energy is doubled")
+        print("Bought Egg 2")
+        print(f"Strength is {strength}")
+        strength = muscles * durability #change strength back
+    else:
+        print("Insufficient funds. Requires 500 Muscles and 375 Durability")
 
 def show():
     global exercising, durabilities
@@ -111,7 +127,8 @@ def create_button(text, command):
 
 train_button = create_button("Train by lifting weights", exercise_muscles)
 train__button = create_button("Train durability", exercise_durability)
-buy__ = create_button("Buy egg b1 one $100 strength", buyeggone)
+buy__ = create_button("Buy egg tier 1 costs: 100 strength and 100 ", buyeggone)
+buy___ = create_button("Buy egg tier 2", buyeggtwo) 
 show__ = create_button("Show inventory", show)
 fight__ = create_button("Fight!", fight)
 
@@ -119,3 +136,6 @@ fight__ = create_button("Fight!", fight)
 threading.Thread(target=apply_cheat_code, daemon=True).start()
 
 root.mainloop()
+
+
+#Add more pets: random generated with 3 tiers
