@@ -61,19 +61,19 @@ def apply_cheat_code():
     print(f"Code applied! Strength: {strength}, Muscles: {muscles}, Durability: {durability}")
 
 def buyeggone():
-    global strength, p
     if strength >= 100:
-        global exercising, durabilities
+        global exercising, durabilities, strength, p, muscles, durability
         exercising = False
         durabilities = False
-        strength -= 100
+        muscles -= 100
+        durability -= 100
         inventory.append("Egg 1")
         p += 1
         print("Energy is doubled")
         print("Bought Egg 1")
         print(f"Strength is {strength}")
     else:
-        print("Not enough funds to purchase egg")
+        print("Insufficient funds. Requires 100 Muscles and 100 Durability")
 
 def show():
     global exercising, durabilities
